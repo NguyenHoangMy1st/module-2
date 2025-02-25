@@ -17,6 +17,12 @@ public class Fan {
         this.radius = 5;
         this.color = "blue";
     }
+    public Fan(int speed, boolean on, double radius, String color) {
+        this.speed = speed;
+        this.on = on;
+        this.radius = radius;
+        this.color = color;
+    }
 
     public int getSpeed() {
         return speed;

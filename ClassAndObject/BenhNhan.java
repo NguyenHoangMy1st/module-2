@@ -5,6 +5,13 @@ public class BenhNhan {
     private String name;
     private String status;
 
+    public static String language = "English";
+
+    public static String getVersion(){
+        return "1.1";
+    }
+
+
     public BenhNhan() {}
 
     public BenhNhan(int id, String name, String status) {
@@ -29,5 +36,10 @@ public class BenhNhan {
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+    public static void phatQua(){
+        System.out.println("Current verion: " + BenhNhan.language );
+        System.out.println("Current verion: " + BenhNhan.getVersion() );
+        System.out.println("Phat Qua Benh Nhan");
     }
 }

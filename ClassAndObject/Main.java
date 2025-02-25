@@ -22,5 +22,6 @@ public class Main {
         System.out.println("ID: " + benhNhan1.getId() + ", Name: " + benhNhan1.getName() + ", Status: " + benhNhan1.getStatus());
         System.out.println("ID: " + benhNhan2.getId() + ", Name: " + benhNhan2.getName() + ", Status: " + benhNhan2.getStatus());
 
+
     }
 }
