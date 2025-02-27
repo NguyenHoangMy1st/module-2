@@ -35,4 +35,7 @@ public class Xe {
     public String toString() {
         return "Xe [bienSo = " + bienSo + ", hangXe = " + hangXe + ", mauSac = " + mauSac + "]";
     }
+    public void diChuyen(){
+        System.out.println("diChuyen");
+    }
 }
