@@ -3,13 +3,15 @@ package case_study.services;
 import case_study.models.PhoneBook;
 
 import java.io.*;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class PhoneManager {
     private List<PhoneBook> phoneBooks = new ArrayList<>();
-    private final String filename = "case_study/data/phonebook.csv";
+    private final String filename = "E:\\LearningJava\\Java\\src\\case_study\\data\\phonebook.csv";
 
     public void addPhoneBook(PhoneBook pb) {
         if (pb.getPhoneNumber().equals("Không hợp lệ")){
@@ -58,7 +60,8 @@ public class PhoneManager {
     }
 
     public void sortPhoneBooks() {
-        phoneBooks.sort(Comparator.comparing(PhoneBook::getName));
+            Collator collator = Collator.getInstance(new Locale("vi", "VN")); // Tạo Collator cho tiếng Việt
+            phoneBooks.sort(Comparator.comparing(PhoneBook::getName, collator)); // Sử dụng Collator để so sánh tên
     }
 
     public void saveToFile() {
