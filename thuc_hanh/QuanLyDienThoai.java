@@ -6,62 +6,55 @@ import java.util.List;
 import java.util.Scanner;
 
 public class QuanLyDienThoai {
-    private static final String FILE_PATH = "dienthoai.csv"; // Đường dẫn file CSV
+    private static final String FILE_PATH = "dienthoai.csv";
+
+    private List<DienThoai> danhSachDienThoai;
+
+    public QuanLyDienThoai() {
+        this.danhSachDienThoai = new ArrayList<>();
+    }
 
     public List<DienThoai> docDanhSachDienThoai() throws IOException {
-        List<DienThoai> danhSachDienThoai = new ArrayList<>();
         File file = new File(FILE_PATH);
-
         if (!file.exists()) {
             System.out.println("File không tồn tại: " + FILE_PATH);
-            return danhSachDienThoai;
+            return new ArrayList<>();
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
-            System.out.println("Đang đọc file...");
-
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println("Đọc dòng: " + line);
                 String[] fields = line.split(",");
 
-                if (fields.length == 7 || fields.length == 6) {
+                if (fields.length == 7) {
                     int id = Integer.parseInt(fields[0]);
                     String tenDienThoai = fields[1];
                     int giaBan = Integer.parseInt(fields[2]);
                     int soLuong = Integer.parseInt(fields[3]);
                     String nhaSanXuat = fields[4];
-
-                    if (fields.length == 7) {
-                        int thoiGianBaoHanh = Integer.parseInt(fields[5]);
-                        String phamViBaoHanh = fields[6];
-                        DienThoaiChinhHang dtChinhHang = new DienThoaiChinhHang(id, tenDienThoai, giaBan, soLuong, nhaSanXuat, thoiGianBaoHanh, phamViBaoHanh);
-                        danhSachDienThoai.add(dtChinhHang);
-                    } else {
-                        String quocGiaXachTay = fields[6];
-                        String trangThai = fields[7];
-                        DienThoaiXachTay dtXachTay = new DienThoaiXachTay(id, tenDienThoai, giaBan, soLuong, nhaSanXuat, quocGiaXachTay, trangThai);
-                        danhSachDienThoai.add(dtXachTay);
-                    }
-                } else {
-                    System.out.println("Dòng dữ liệu không hợp lệ: " + line);
+                    int thoiGianBaoHanh = Integer.parseInt(fields[5]);
+                    String phamViBaoHanh = fields[6];
+                    DienThoaiChinhHang dtChinhHang = new DienThoaiChinhHang(id, tenDienThoai, giaBan, soLuong, nhaSanXuat, thoiGianBaoHanh, phamViBaoHanh);
+                    danhSachDienThoai.add(dtChinhHang);
+                } else if (fields.length == 8) {
+                    int id = Integer.parseInt(fields[0]);
+                    String tenDienThoai = fields[1];
+                    int giaBan = Integer.parseInt(fields[2]);
+                    int soLuong = Integer.parseInt(fields[3]);
+                    String nhaSanXuat = fields[4];
+                    String quocGiaXachTay = fields[5];
+                    String trangThai = fields[6];
+                    DienThoaiXachTay dtXachTay = new DienThoaiXachTay(id, tenDienThoai, giaBan, soLuong, nhaSanXuat, quocGiaXachTay, trangThai);
+                    danhSachDienThoai.add(dtXachTay);
                 }
             }
-
-            System.out.println("Đã tải danh sách điện thoại từ file.");
-        } catch (IOException e) {
-            System.out.println("Lỗi khi đọc file: " + e.getMessage());
         }
 
         return danhSachDienThoai;
     }
 
-
-
     public void luuDanhSachDienThoai(List<DienThoai> danhSachDienThoai) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            System.out.println("Đang ghi file...");
-
             for (DienThoai dt : danhSachDienThoai) {
                 String data = "";
                 if (dt instanceof DienThoaiChinhHang) {
@@ -76,51 +69,47 @@ public class QuanLyDienThoai {
                             dtXachTay.getTrangThai();
                 }
 
-                System.out.println("Ghi dòng: " + data);
                 bw.write(data);
                 bw.newLine();
             }
-
-            System.out.println("Dữ liệu đã được ghi vào file: " + FILE_PATH);
         } catch (IOException e) {
             System.out.println("Lỗi khi ghi file: " + e.getMessage());
         }
     }
 
-
-    public void themDienThoai(){
+    public void themDienThoai() {
         Scanner sc = new Scanner(System.in);
-        try{
+        try {
             List<DienThoai> danhSachDienThoai = docDanhSachDienThoai();
             int idMoi = danhSachDienThoai.size() + 1;
-            System.out.println("Nhập tên điện thoai mới");
+            System.out.println("Nhập tên điện thoại mới:");
             String tenDienThoai = sc.nextLine();
-            System.out.println("Nhập giá điện thoại");
+            System.out.println("Nhập giá điện thoại:");
             int giaBan = Integer.parseInt(sc.nextLine());
-            System.out.println("Nhập số lượng điện thoại");
+            System.out.println("Nhập số lượng điện thoại:");
             int soLuong = Integer.parseInt(sc.nextLine());
-            System.out.println("Nhập nhà sản xuất");
+            System.out.println("Nhập nhà sản xuất:");
             String nhaSanXuat = sc.nextLine();
-            System.out.println("Nhập loại điện thoại (1. Chính hãng 2. Xách tay)");
-            int loaiDienThoai  = Integer.parseInt(sc.nextLine());
+            System.out.println("Nhập loại điện thoại (1. Chính hãng 2. Xách tay):");
+            int loaiDienThoai = Integer.parseInt(sc.nextLine());
 
-            if(loaiDienThoai == 1){
-                System.out.println("Nhập thời gian bảo hành(số ngày):");
+            if (loaiDienThoai == 1) {
+                System.out.println("Nhập thời gian bảo hành (số ngày):");
                 int thoiGian = Integer.parseInt(sc.nextLine());
                 System.out.println("Nhập phạm vi bảo hành (Toan quoc hay Quoc te)");
                 String phamVi = sc.nextLine();
-                if(thoiGian <= 0 || thoiGian > 730){
+                if (thoiGian <= 0 || thoiGian > 730) {
                     System.out.println("Thời gian bảo hành không hợp lệ");
                     return;
                 }
-                if(!phamVi.equals("Toan quoc") && !phamVi.equals("Quoc te")){
+                if (!phamVi.equals("Toan quoc") && !phamVi.equals("Quoc te")) {
                     System.out.println("Phạm vi bảo hành không hợp lệ");
                     return;
                 }
                 DienThoaiChinhHang chinhHang = new DienThoaiChinhHang(idMoi, tenDienThoai, giaBan, soLuong, nhaSanXuat, thoiGian, phamVi);
                 danhSachDienThoai.add(chinhHang);
 
-            }else if(loaiDienThoai == 2){
+            } else if (loaiDienThoai == 2) {
                 System.out.println("Nhập quốc gia xách tay:");
                 String quocGiaXachTay = sc.nextLine();
                 if (quocGiaXachTay.equalsIgnoreCase("Viet Nam")) {
@@ -138,27 +127,65 @@ public class QuanLyDienThoai {
             }
             luuDanhSachDienThoai(danhSachDienThoai);
 
-
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Có lỗi xảy ra: " + e.getMessage());
         }
     }
-    public void hienThiDanhSach() {
-        try {
-            List<DienThoai> danhSachDienThoai = docDanhSachDienThoai();
 
-            if (danhSachDienThoai.isEmpty()) {
-                System.out.println("Danh sách điện thoại hiện tại không có dữ liệu.");
-            } else {
-                System.out.println("Danh sách điện thoại:");
-                for (DienThoai dt : danhSachDienThoai) {
-                    System.out.println(dt.hienThiThongTin());
+    public void hienThiDanhSach() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isExit = false;
+
+        while (!isExit) {
+            System.out.println("\nHiển thị danh sách điện thoại");
+            System.out.println("1. Hiển thị danh sách điện thoại chính hãng");
+            System.out.println("2. Hiển thị danh sách điện thoại xách tay");
+            System.out.println("3. Hiển thị tất cả các loại điện thoại");
+            System.out.println("0. Thoát");
+
+            int choice;
+            while (true) {
+                System.out.print("Nhập lựa chọn của bạn: ");
+                try {
+                    choice = Integer.parseInt(scanner.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Nhập không hợp lệ, vui lòng thử lại.");
                 }
             }
-        } catch (IOException e) {
-            System.out.println("Có lỗi khi đọc danh sách điện thoại: " + e.getMessage());
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\nDANH SÁCH ĐIỆN THOẠI CHÍNH HÃNG");
+                    for (DienThoai dt : danhSachDienThoai) {
+                        if (dt instanceof DienThoaiChinhHang) {
+                            System.out.println(dt.hienThiThongTin());
+                        }
+                    }
+                    break;
+                case 2:
+                    System.out.println("\nDANH SÁCH ĐIỆN THOẠI XÁCH TAY");
+                    for (DienThoai dt : danhSachDienThoai) {
+                        if (dt instanceof DienThoaiXachTay) {
+                            System.out.println(dt.hienThiThongTin());
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("\nTẤT CẢ DÁN SÁCH ĐIỆN THOẠI");
+                    for (DienThoai dt : danhSachDienThoai) {
+                        System.out.println(dt.hienThiThongTin());
+                    }
+                    break;
+                case 0:
+                    isExit = true;
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ, vui lòng thử lại.");
+            }
         }
     }
+
 
     public void xoaDienThoai() {
         Scanner scanner = new Scanner(System.in);

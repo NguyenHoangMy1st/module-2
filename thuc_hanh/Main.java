@@ -7,29 +7,47 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         QuanLyDienThoai manager = new QuanLyDienThoai();
 
-        while (true) {
-            System.out.println("\n===============================");
-            System.out.println("1. Thêm mới điện thoại");
-            System.out.println("2. Xóa điện thoại");
-            System.out.println("3. Xem danh sách điện thoại");
+        boolean isExit = false;
+        while (!isExit) {
+            System.out.println("=====================================");
+            System.out.println("Quản lý điện thoại");
+            System.out.println("1. Hiển thị danh sách điện thoại");
+            System.out.println("2. Thêm mới điện thoại");
+            System.out.println("3. Xóa điện thoại");
             System.out.println("4. Tìm kiếm điện thoại");
-            System.out.println("5. Thoát");
-            System.out.print("Chọn chức năng: ");
-            int chucNang = Integer.parseInt(scanner.nextLine());
+            System.out.println("0. Thoát");
+            System.out.println("=====================================");
 
-            if (chucNang == 1) {
-                manager.themDienThoai();
-            } else if (chucNang == 2) {
-                manager.xoaDienThoai();
-            } else if (chucNang == 3) {
-                manager.hienThiDanhSach();
-            } else if (chucNang == 4) {
-                manager.timKiemDienThoai();
-            } else if (chucNang == 5) {
-                System.out.println("Thoát chương trình.");
-                break;
-            } else {
-                System.out.println("Lựa chọn không hợp lệ, vui lòng thử lại.");
+            int choice;
+            while (true) {
+                System.out.print("Nhập lựa chọn của bạn: ");
+                try {
+                    choice = Integer.parseInt(scanner.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Nhập không hợp lệ, vui lòng thử lại.");
+                }
+            }
+
+            switch (choice) {
+                case 1:
+                    manager.hienThiDanhSach();
+                    break;
+                case 2:
+                    manager.themDienThoai();
+                    break;
+                case 3:
+                    manager.xoaDienThoai();
+                    break;
+                case 4:
+                    manager.timKiemDienThoai();
+                    break;
+                case 0:
+                    System.out.println("Thoát chương trình.");
+                    isExit = true;
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ.");
             }
         }
 
